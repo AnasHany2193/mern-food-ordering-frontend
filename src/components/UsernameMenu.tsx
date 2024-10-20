@@ -20,7 +20,7 @@ const UsernameMenu = () => {
 
   return (
     <div className="flex">
-      <Link to="/order-status" className="font-bold hover:text-orange-500">
+      <Link to="/order" className="font-bold hover:text-orange-500">
         Order Status
       </Link>
       <DropdownMenu>
@@ -29,11 +29,6 @@ const UsernameMenu = () => {
           {user?.nickname}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>
-            <Link className="font-bold hover:text-orange-500" to="/orders">
-              Orders
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link
               className="font-bold hover:text-orange-500"

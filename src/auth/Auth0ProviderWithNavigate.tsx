@@ -1,3 +1,4 @@
+import { useCreateMyUser } from "@/api/MyUserApi";
 import { AppState, Auth0Provider, User } from "@auth0/auth0-react";
 
 type Props = {
@@ -5,10 +6,12 @@ type Props = {
 };
 
 /**
- * Authentication Provider
- * @description This is the Auth0 Provider that is used to authenticate users. It is wrapped with a navigate function that is used to redirect the user to the home page.
+ * Authentication provider
+ * This is a wrapper component that will redirect the user to the login page if they are not logged in.
  */
 const Auth0ProviderWithNavigate = ({ children }: Props) => {
+  const { createUser } = useCreateMyUser();
+
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
   const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_AUTH0_REDIRECT_URI;
@@ -17,8 +20,8 @@ const Auth0ProviderWithNavigate = ({ children }: Props) => {
     throw new Error("Unable to load Auth0 configuration");
 
   const onRedirectCallback = (appState?: AppState, user?: User) => {
-    console.log("User logged in:", user);
-    console.log("App state:", appState);
+    if (user?.sub && user?.email)
+      createUser({ auth0Id: user.sub, email: user.email });
   };
 
   return (

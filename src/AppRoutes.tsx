@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Layout from "./layouts/layout";
 import HomePage from "./pages/HomePage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 /**
  * AppRoutes
@@ -18,7 +19,14 @@ function AppRoutes() {
           </Layout>
         }
       />
-      <Route path="/user-profile" element={<p>User Profile Page</p>} />
+      <Route
+        path="/user-profile"
+        element={
+          <Layout showHero={false}>
+            <UserProfilePage />
+          </Layout>
+        }
+      />
 
       {/* <Route path="*" element={<Navigate to="/" />} /> */}
       <Route
