@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/layout";
 import HomePage from "./pages/HomePage";
 import UserProfilePage from "./pages/UserProfilePage";
+import AuthCallbackPage from "./pages/AuthCallbackPage";
 
 /**
  * AppRoutes
@@ -19,6 +20,7 @@ function AppRoutes() {
           </Layout>
         }
       />
+      <Route path="/auth-callback" element={<AuthCallbackPage />} />
       <Route
         path="/user-profile"
         element={
