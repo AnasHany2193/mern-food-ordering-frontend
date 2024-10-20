@@ -6,7 +6,7 @@ import appDownload from "@/assets/appDownload.png";
 const HomePage = () => {
   return (
     <>
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-12 mx-10">
         <div className="flex flex-col gap-5 py-8 -mt-16 text-center bg-white rounded-lg shadow-md">
           <h1 className="text-5xl font-bold tracking-tight text-orange-500">
             Tuck into a takeaway today

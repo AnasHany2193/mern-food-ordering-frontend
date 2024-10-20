@@ -39,11 +39,15 @@ const SearchBar = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={`flex flex-row items-center justify-between gap-3 p-3 border-2 rounded-full ${
+        className={`flex flex-row items-center justify-between gap-3 mx-5 p-3 border-2 rounded-full ${
           form.formState.errors.searchQuery && "border-red-500"
         }`}
       >
-        <Search strokeWidth={2.5} size={30} className="ml-1 text-orange-500 " />
+        <Search
+          strokeWidth={2.5}
+          size={30}
+          className="hidden ml-1 text-orange-500 md:block"
+        />
 
         <FormField
           control={form.control}
@@ -54,7 +58,7 @@ const SearchBar = () => {
                 <Input
                   placeholder="Search By City or Town"
                   {...field}
-                  className="text-xl border-none shadow-none focus-visible:ring-0"
+                  className="text-lg border-none shadow-none md:text-xl focus-visible:ring-0"
                 />
               </FormControl>
               <FormMessage />
@@ -62,9 +66,14 @@ const SearchBar = () => {
           )}
         />
 
-        <Button type="button" variant="outline" className="rounded-full">
+        <Button
+          type="button"
+          variant="outline"
+          className="hidden rounded-full md:block"
+        >
           Reset
         </Button>
+
         <Button type="submit" className="bg-orange-500 rounded-full">
           Search
         </Button>

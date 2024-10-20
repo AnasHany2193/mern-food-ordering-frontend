@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 
 import logo from "../assets/logo.png";
+
 const Footer = () => {
   return (
     <footer className="py-5 text-white bg-orange-500 ">
       <div className="container grid gap-5 mx-auto md:grid-cols-2">
-        <Link
-          to="/"
-          className="flex items-center justify-center gap-3 text-3xl font-bold tracking-tight hover:text-black"
-        >
-          <span>MernEats.com</span>
+        <div className="flex items-center justify-center gap-3 text-3xl font-bold tracking-tight ">
+          <Link to="/" className="hover:text-black">
+            MernEats.com
+          </Link>
           <img src={logo} alt="logo-img" width={50} height={50} />
-        </Link>
+        </div>
 
         {/* Copyright*/}
         <div className="flex flex-col items-center gap-5 text-center md:text-right">
