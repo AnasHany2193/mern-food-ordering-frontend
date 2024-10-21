@@ -1,4 +1,6 @@
-import { useUpdateMyUser } from "@/api/MyUserApi";
+import { useGetMyUser, useUpdateMyUser } from "@/api/MyUserApi";
+
+import Loader from "@/components/Loader";
 import UserProfileForm from "@/forms/user-profile-form/UserProfileForm";
 
 /**
@@ -6,9 +8,12 @@ import UserProfileForm from "@/forms/user-profile-form/UserProfileForm";
  * @description User Profile Page Component that displays the user profile form and updates the user profile
  */
 const UserProfilePage = () => {
-  const { updateUser, isLoading } = useUpdateMyUser();
+  const { currentUser, isLoading: isGettingUser } = useGetMyUser();
+  const { updateUser, isLoading: isUpdatingUser } = useUpdateMyUser();
 
-  return <UserProfileForm onSave={updateUser} isLoading={isLoading} />;
+  if (isGettingUser) return <Loader />;
+
+  return <UserProfileForm onSave={updateUser} isLoading={isUpdatingUser} />;
 };
 
 export default UserProfilePage;
