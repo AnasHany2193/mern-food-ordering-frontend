@@ -1,5 +1,6 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "sonner";
 import { useMutation } from "react-query";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -37,17 +38,11 @@ export const useCreateMyUser = () => {
     if (!response.ok) throw new Error("Error creating user");
   };
 
-  const {
-    isError,
-    isLoading,
-    isSuccess,
-    mutateAsync: createUser,
-  } = useMutation(createMyUserRequest);
+  const { isLoading, mutateAsync: createUser } =
+    useMutation(createMyUserRequest);
 
   return {
-    isError,
     isLoading,
-    isSuccess,
     createUser,
   };
 };
@@ -74,14 +69,19 @@ export const useUpdateMyUser = () => {
     if (!response.ok) throw new Error("Error updating user");
   };
 
-  const {
-    error,
-    reset,
-    isError,
-    isLoading,
-    isSuccess,
-    mutateAsync: updateUser,
-  } = useMutation(updateMyUserRequest);
+  const { isLoading, mutateAsync: updateUser } = useMutation(
+    updateMyUserRequest,
+    {
+      onSuccess: () => {
+        toast.success("User profile updated!");
+      },
+      onError: (error: Error) => {
+        toast.error("Error updating user", {
+          description: error.message,
+        });
+      },
+    }
+  );
 
-  return { error, reset, isError, isLoading, isSuccess, updateUser };
+  return { isLoading, updateUser };
 };
