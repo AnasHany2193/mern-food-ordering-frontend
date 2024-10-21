@@ -1,9 +1,11 @@
 import { z } from "zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import LoadingButton from "@/components/LoadingButton";
 
+import { User } from "@/types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,26 +29,25 @@ const formSchema = z.object({
 export type UserFormData = z.infer<typeof formSchema>;
 
 type Props = {
-  onSave: (userProfileData: UserFormData) => void;
+  currentUser: User;
   isLoading: boolean;
+  onSave: (userProfileData: UserFormData) => void;
 };
 
 /**
  * User Profile Form Component
  * @description  User Profile Form Component that allows users to update their profile information and submit it.
  */
-const UserProfileForm = ({ onSave, isLoading }: Props) => {
+const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
   // 1. Define your form.
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "", // or a value from your state if available
-      name: "",
-      addressLine1: "",
-      city: "",
-      country: "",
-    },
+    defaultValues: currentUser,
   });
+
+  useEffect(() => {
+    form.reset(currentUser);
+  }, [currentUser, form]);
 
   // 2. Use the form.
   return (
