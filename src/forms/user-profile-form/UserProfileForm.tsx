@@ -39,6 +39,13 @@ const UserProfileForm = ({ onSave, isLoading }: Props) => {
   // 1. Define your form.
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "", // or a value from your state if available
+      name: "",
+      addressLine1: "",
+      city: "",
+      country: "",
+    },
   });
 
   // 2. Use the form.
