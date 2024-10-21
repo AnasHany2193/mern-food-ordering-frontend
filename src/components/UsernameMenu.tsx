@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 /**
- * UsernameMenu
- * @description This component is used to display the user's name and a dropdown menu to logout
+ * Username Menu component
+ * @description Username Menu component that displays the user's name and logout button
  */
 const UsernameMenu = () => {
   const { user, logout } = useAuth0();

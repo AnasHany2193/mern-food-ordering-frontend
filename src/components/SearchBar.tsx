@@ -19,6 +19,10 @@ const formSchema = z.object({
   }),
 });
 
+/**
+ * Search Bar Component
+ * @description Search Bar Component that uses react-hook-form to validate and submit the form.
+ */
 const SearchBar = () => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({

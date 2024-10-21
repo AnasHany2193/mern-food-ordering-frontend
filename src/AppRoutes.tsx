@@ -24,7 +24,7 @@ function AppRoutes() {
       <Route
         path="/user-profile"
         element={
-          <Layout showHero={false}>
+          <Layout>
             <UserProfilePage />
           </Layout>
         }

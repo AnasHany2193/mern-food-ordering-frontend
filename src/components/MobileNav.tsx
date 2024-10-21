@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/sheet";
 
 /**
- * Mobile NavBar
- * @description MobileNavBar component that renders a button that toggles the mobile navigation
+ * Mobile NavBar component
+ * @description Mobile NavBar component that is used to display the user's name and the user's profile picture
  */
 const MobileNav = () => {
   const { loginWithRedirect, isAuthenticated, user } = useAuth0();

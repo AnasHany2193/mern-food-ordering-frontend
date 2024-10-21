@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useAuth0 } from "@auth0/auth0-react";
 
+/**
+ * Mobile Navbar Links component
+ * @description Mobile Navbar Links component that renders the links to the different pages
+ */
 const MobileNavLinks = () => {
   const { logout } = useAuth0();
 

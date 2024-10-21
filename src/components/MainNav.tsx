@@ -4,8 +4,8 @@ import { Button } from "./ui/button";
 import UsernameMenu from "./UsernameMenu";
 
 /**
- * Main NavBar
- * @description Displays the main nav bar with the username menu if the user is logged in or a log in button if not.
+ * Main NavBar component
+ * @description Main NavBar component that contains the user's username menu and a button to log in
  */
 const MainNav = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();

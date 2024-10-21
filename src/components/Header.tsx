@@ -4,6 +4,10 @@ import MainNav from "./MainNav";
 
 import Logo from "../assets/logo.png";
 
+/**
+ * Header component
+ * @description Header component that displays the logo and navigation links
+ */
 function Header() {
   return (
     <header className="py-6 border-b-2 border-b-orange-500">

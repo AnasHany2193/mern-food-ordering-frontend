@@ -1,3 +1,7 @@
+/**
+ * Loader component
+ * @description Loader component that is used to show loading state when data is being fetched
+ */
 const Loader = () => {
   return (
     <div className="w-full flex-center">

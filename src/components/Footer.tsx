@@ -3,6 +3,10 @@ import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 
 import logo from "../assets/logo.png";
 
+/**
+ * Footer component
+ * @description Footer component that displays the copyright information and social media icons.
+ */
 const Footer = () => {
   return (
     <footer className="py-5 text-white bg-orange-500 ">

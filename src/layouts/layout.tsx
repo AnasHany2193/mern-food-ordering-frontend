@@ -3,11 +3,15 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 type Props = {
-  showHero: boolean;
+  showHero?: boolean;
   children: React.ReactNode;
 };
 
-const Layout = ({ showHero, children }: Props) => {
+/**
+ * Layout component
+ * @description Layout component that wraps the app in a container with a header and footer and a hero section if needed
+ */
+const Layout = ({ showHero = false, children }: Props) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

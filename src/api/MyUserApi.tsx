@@ -10,7 +10,7 @@ type createUserRequest = {
 
 /**
  * Creates a new user in the database.
- * @description This is a mutation that creates a new user in the database. It takes in a user object and sends a POST request to the API.
+ * @description This function is used to create a new user in the database. It takes in a user object and sends a POST request to the API.
  */
 export const useCreateMyUser = () => {
   const { getAccessTokenSilently } = useAuth0();

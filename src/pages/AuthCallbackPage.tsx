@@ -1,10 +1,14 @@
-import { useAuth0 } from "@auth0/auth0-react";
-
-import { useCreateMyUser } from "@/api/MyUserApi";
 import { useEffect, useRef } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import Loader from "@/components/Loader";
 
+import Loader from "@/components/Loader";
+import { useCreateMyUser } from "@/api/MyUserApi";
+
+/**
+ * Authentication callback page.
+ * @description Redirects the user to the home page after successful authentication.
+ */
 function AuthCallbackPage() {
   const navigate = useNavigate();
 

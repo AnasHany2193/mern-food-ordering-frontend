@@ -7,15 +7,16 @@ type Props = {
 
 /**
  * Authentication provider
- * This is a wrapper component that will redirect the user to the login page if they are not logged in.
+ * @description This provider is used to authenticate the user and get the user's profile.
  */
 const Auth0ProviderWithNavigate = ({ children }: Props) => {
   const navigate = useNavigate();
   const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+  const audience = import.meta.env.VITE_AUTH0_AUDIENCE;
   const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_AUTH0_REDIRECT_URI;
 
-  if (!domain || !clientId || !redirectUri)
+  if (!domain || !clientId || !redirectUri || !audience)
     throw new Error("Unable to load Auth0 configuration");
 
   const onRedirectCallback = () => {
@@ -26,7 +27,7 @@ const Auth0ProviderWithNavigate = ({ children }: Props) => {
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      authorizationParams={{ redirect_uri: redirectUri }}
+      authorizationParams={{ redirect_uri: redirectUri, audience }}
       onRedirectCallback={onRedirectCallback}
     >
       {children}
