@@ -6,6 +6,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import UserProfilePage from "./pages/UserProfilePage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
+import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 
 /**
  * AppRoutes
@@ -29,6 +30,14 @@ function AppRoutes() {
           element={
             <Layout>
               <UserProfilePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/manage-restaurant"
+          element={
+            <Layout>
+              <ManageRestaurantPage />
             </Layout>
           }
         />
