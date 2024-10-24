@@ -74,3 +74,43 @@ export const useCreateMyRestaurant = () => {
 
   return { isLoading, createRestaurant };
 };
+
+/**
+ * Updates the current user's restaurant
+ * @description This function is used to update the current user's restaurant. It takes in a restaurant object and sends a PUT request to the API.
+ */
+export const useUpdateMyRestaurant = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
+  const updateMyRestaurantRequest = async (
+    restaurantDataForm: FormData
+  ): Promise<Restaurant> => {
+    const accessToken = await getAccessTokenSilently();
+
+    const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: restaurantDataForm,
+    });
+
+    if (!response.ok) throw new Error("Failed to update restaurant");
+
+    return response.json();
+  };
+
+  const { isLoading, mutate: updateRestaurant } = useMutation(
+    updateMyRestaurantRequest,
+    {
+      onSuccess: () => {
+        toast.success("Restaurant updated successfully");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    }
+  );
+
+  return { isLoading, updateRestaurant };
+};

@@ -1,14 +1,21 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
 import {
   useCreateMyRestaurant,
   useGetMyRestaurant,
+  useUpdateMyRestaurant,
 } from "@/api/MyRestaurantApi";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
-
+/**
+ * Manage Restaurant Page
+ * @description This page is used to create and manage a restaurant or update the restaurant information. This page is only accessible to the restaurant owner.
+ */
 function ManageRestaurantPage() {
   const { getRestaurant } = useGetMyRestaurant();
   const { isLoading: isCreating, createRestaurant } = useCreateMyRestaurant();
+  const { isLoading: isUpdating, updateRestaurant } = useUpdateMyRestaurant();
+
+  const isEditing = !!getRestaurant;
 
   return (
     <Tabs defaultValue="orders" className="mx-5">
@@ -24,9 +31,9 @@ function ManageRestaurantPage() {
       </TabsContent>
       <TabsContent value="manage-restaurant">
         <ManageRestaurantForm
-          onSave={createRestaurant}
           restaurant={getRestaurant}
-          isLoading={isCreating}
+          isLoading={isCreating || isUpdating}
+          onSave={isEditing ? updateRestaurant : createRestaurant}
         />
       </TabsContent>
     </Tabs>

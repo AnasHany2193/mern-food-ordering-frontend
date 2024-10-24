@@ -1,43 +1,52 @@
 import { z } from "zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Restaurant } from "@/types";
+
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 import MenuSection from "./MenuSection";
 import ImageSection from "./ImageSection";
 import DetailsSection from "./DetailsSection";
 import CuisinesSection from "./CuisinesSection";
 
-import { Form } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-
 import LoadingButton from "@/components/LoadingButton";
-import { Restaurant } from "@/types";
-import { useEffect } from "react";
 
-const formSchema = z.object({
-  restaurantName: z.string({ required_error: "Restaurant name is required" }),
-  city: z.string({ required_error: "City is required" }),
-  country: z.string({ required_error: "Country is required" }),
-  deliveryPrice: z.coerce.number({
-    required_error: "Delivery price is required",
-    invalid_type_error: "Delivery price must be a number",
-  }),
-  estimatedDeliveryTime: z.coerce.number({
-    required_error: "Estimated delivery time is required",
-    invalid_type_error: "Estimated delivery time must be a number",
-  }),
-  cuisines: z
-    .array(z.string())
-    .nonempty({ message: "Please select at least one cuisine" }),
-  menuItems: z.array(
-    z.object({
-      name: z.string().min(1, "Name is required"),
-      price: z.coerce.number().min(1, "Price is required"),
-    })
-  ),
-  imageFile: z.instanceof(File, { message: "Image file is required" }),
-});
+const formSchema = z
+  .object({
+    restaurantName: z.string({ required_error: "Restaurant name is required" }),
+    city: z.string({ required_error: "City is required" }),
+    country: z.string({ required_error: "Country is required" }),
+    deliveryPrice: z.coerce.number({
+      required_error: "Delivery price is required",
+      invalid_type_error: "Delivery price must be a number",
+    }),
+    estimatedDeliveryTime: z.coerce.number({
+      required_error: "Estimated delivery time is required",
+      invalid_type_error: "Estimated delivery time must be a number",
+    }),
+    cuisines: z
+      .array(z.string())
+      .nonempty({ message: "Please select at least one cuisine" }),
+    menuItems: z.array(
+      z.object({
+        name: z.string().min(1, "Name is required"),
+        price: z.coerce.number().min(1, "Price is required"),
+      })
+    ),
+    imageUrl: z.string().optional(),
+    imageFile: z
+      .instanceof(File, { message: "Image file is required" })
+      .optional(),
+  })
+  .refine((data) => data.imageUrl || data.imageFile, {
+    message: "Please upload an image",
+    path: ["imageFile"],
+  });
 
 type RestaurantFormData = z.infer<typeof formSchema>;
 
@@ -49,7 +58,7 @@ type Props = {
 
 /**
  * Manage Restaurant Form
- * @description This component is used to create a new restaurant and manage its details.
+ * @description This component is used to create or update a restaurant in the database.
  */
 function ManageRestaurantForm({ onSave, isLoading, restaurant }: Props) {
   // 1. Define your form.
@@ -71,6 +80,7 @@ function ManageRestaurantForm({ onSave, isLoading, restaurant }: Props) {
     },
   });
 
+  // 2. Use the form to update the restaurant.
   useEffect(() => {
     if (!restaurant) return;
 
@@ -92,6 +102,7 @@ function ManageRestaurantForm({ onSave, isLoading, restaurant }: Props) {
     form.reset(updatedRestaurant);
   }, [form, restaurant]);
 
+  // 3. Handle form submission.
   const onsubmit = (formDataJson: RestaurantFormData) => {
     // TODO: convert formDataJson to a new formData object
     const formData = new FormData();
@@ -116,11 +127,14 @@ function ManageRestaurantForm({ onSave, isLoading, restaurant }: Props) {
         (menuItem.price * 100).toString()
       );
     });
-    formData.append("imageFile", formDataJson.imageFile);
+
+    if (formDataJson.imageFile)
+      formData.append("imageFile", formDataJson.imageFile);
 
     onSave(formData);
   };
 
+  // 4. Render the form.
   return (
     <Form {...form}>
       <form
@@ -142,7 +156,7 @@ function ManageRestaurantForm({ onSave, isLoading, restaurant }: Props) {
           <LoadingButton />
         ) : (
           <Button type="submit" className="bg-orange-500">
-            Create
+            {restaurant ? "Update" : "Create"}
           </Button>
         )}
       </form>
