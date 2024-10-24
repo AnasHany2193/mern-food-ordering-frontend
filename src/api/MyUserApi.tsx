@@ -46,7 +46,6 @@ export const useGetMyUser = () => {
  * Creates a new user in the database.
  * @description This function is used to create a new user in the database. It takes in a user object and sends a POST request to the API.
  */
-
 type createUserRequest = {
   auth0Id: string;
   email: string;
@@ -83,7 +82,6 @@ export const useCreateMyUser = () => {
  * Updates a user in the database.
  * @description This function is used to update a user in the database. It takes in a user object and sends a PUT request to the API.
  */
-
 type updateUserRequest = {
   name: string;
   city: string;

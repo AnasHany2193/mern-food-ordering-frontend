@@ -1,11 +1,11 @@
+import { useCreateMyRestaurant } from "@/api/MyRestaurantApi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
 
 function ManageRestaurantPage() {
-  const isLoading = false;
-  const onSave = () => {
-    console.log("save");
-  };
+  const { isLoading, createRestaurant } = useCreateMyRestaurant();
+
   return (
     <Tabs defaultValue="orders">
       <TabsList>
@@ -19,7 +19,7 @@ function ManageRestaurantPage() {
         orders
       </TabsContent>
       <TabsContent value="manage-restaurant">
-        <ManageRestaurantForm onSave={onSave} isLoading={isLoading} />
+        <ManageRestaurantForm onSave={createRestaurant} isLoading={isLoading} />
       </TabsContent>
     </Tabs>
   );
