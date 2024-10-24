@@ -1,15 +1,44 @@
 import { Restaurant } from "@/types";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 /**
+ * Gets the current user's restaurant
+ * @description This function is used to get the current user's restaurant. It sends a GET request to the API.
+ */
+export const useGetMyRestaurant = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
+  const getMyRestaurantRequest = async (): Promise<Restaurant> => {
+    const accessToken = await getAccessTokenSilently();
+
+    const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to get restaurant");
+
+    return response.json();
+  };
+
+  const { isLoading, data: getRestaurant } = useQuery(
+    "fetchMyRestaurant",
+    getMyRestaurantRequest
+  );
+
+  return { isLoading, getRestaurant };
+};
+
+/**
  * Creates a new restaurant in the database
  * @description This function is used to create a new restaurant in the database. It takes in a restaurant object and sends a POST request to the API.
  */
-
 export const useCreateMyRestaurant = () => {
   const { getAccessTokenSilently } = useAuth0();
 
@@ -37,8 +66,8 @@ export const useCreateMyRestaurant = () => {
       onSuccess: () => {
         toast.success("Restaurant created successfully");
       },
-      onError: () => {
-        toast.error("Failed to create restaurant");
+      onError: (error: Error) => {
+        toast.error(error.message);
       },
     }
   );

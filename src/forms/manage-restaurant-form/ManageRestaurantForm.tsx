@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import LoadingButton from "@/components/LoadingButton";
+import { Restaurant } from "@/types";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   restaurantName: z.string({ required_error: "Restaurant name is required" }),
@@ -42,17 +44,23 @@ type RestaurantFormData = z.infer<typeof formSchema>;
 type Props = {
   onSave: (RestaurantFormData: FormData) => void;
   isLoading: boolean;
+  restaurant?: Restaurant;
 };
 
 /**
  * Manage Restaurant Form
  * @description This component is used to create a new restaurant and manage its details.
  */
-function ManageRestaurantForm({ onSave, isLoading }: Props) {
+function ManageRestaurantForm({ onSave, isLoading, restaurant }: Props) {
   // 1. Define your form.
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      restaurantName: "",
+      city: "",
+      country: "",
+      deliveryPrice: 0,
+      estimatedDeliveryTime: 0,
       cuisines: [],
       menuItems: [
         {
@@ -60,9 +68,29 @@ function ManageRestaurantForm({ onSave, isLoading }: Props) {
           price: 0,
         },
       ],
-      imageFile: undefined,
     },
   });
+
+  useEffect(() => {
+    if (!restaurant) return;
+
+    const deliveryPriceFormatted = parseInt(
+      (restaurant.deliveryPrice / 100).toFixed(2)
+    );
+
+    const menuItemsFormatted = restaurant.menuItems.map((menuItem) => ({
+      ...menuItem,
+      price: parseInt((menuItem.price / 100).toFixed()),
+    }));
+
+    const updatedRestaurant = {
+      ...restaurant,
+      menuItems: menuItemsFormatted,
+      deliveryPrice: deliveryPriceFormatted,
+    };
+
+    form.reset(updatedRestaurant);
+  }, [form, restaurant]);
 
   const onsubmit = (formDataJson: RestaurantFormData) => {
     // TODO: convert formDataJson to a new formData object

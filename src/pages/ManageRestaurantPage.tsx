@@ -1,13 +1,17 @@
-import { useCreateMyRestaurant } from "@/api/MyRestaurantApi";
+import {
+  useCreateMyRestaurant,
+  useGetMyRestaurant,
+} from "@/api/MyRestaurantApi";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import ManageRestaurantForm from "@/forms/manage-restaurant-form/ManageRestaurantForm";
 
 function ManageRestaurantPage() {
-  const { isLoading, createRestaurant } = useCreateMyRestaurant();
+  const { getRestaurant } = useGetMyRestaurant();
+  const { isLoading: isCreating, createRestaurant } = useCreateMyRestaurant();
 
   return (
-    <Tabs defaultValue="orders">
+    <Tabs defaultValue="orders" className="mx-5">
       <TabsList>
         <TabsTrigger value="orders">Orders</TabsTrigger>
         <TabsTrigger value="manage-restaurant">Manage Restaurant</TabsTrigger>
@@ -19,7 +23,11 @@ function ManageRestaurantPage() {
         orders
       </TabsContent>
       <TabsContent value="manage-restaurant">
-        <ManageRestaurantForm onSave={createRestaurant} isLoading={isLoading} />
+        <ManageRestaurantForm
+          onSave={createRestaurant}
+          restaurant={getRestaurant}
+          isLoading={isCreating}
+        />
       </TabsContent>
     </Tabs>
   );
