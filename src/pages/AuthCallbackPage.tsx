@@ -26,7 +26,7 @@ function AuthCallbackPage() {
     navigate("/");
   }, [createUser, user, navigate]);
 
-  return <Loader />;
+  return <Loader screen />;
 }
 
 export default AuthCallbackPage;
