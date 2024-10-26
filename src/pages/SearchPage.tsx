@@ -6,9 +6,10 @@ import Loader from "@/components/Loader";
 import SearchResultInfo from "@/components/SearchResultInfo";
 import SearchResultCard from "@/components/SearchResultCard";
 import SearchBar, { SearchFrom } from "@/components/SearchBar";
+import PaginationSelector from "@/components/PaginationSelector";
 
 export type searchState = {
-  page: string;
+  page: number;
   sortOption: string;
   searchQuery: string;
   selectedCuisines: string[];
@@ -16,7 +17,7 @@ export type searchState = {
 
 const SearchPage = () => {
   const [searchState, setSearchState] = useState<searchState>({
-    page: "1",
+    page: 1,
     searchQuery: "",
     selectedCuisines: [],
     sortOption: "lastUpdated",
@@ -29,16 +30,24 @@ const SearchPage = () => {
     setSearchState((prevState) => ({
       ...prevState,
       searchQuery: searchFormData.searchQuery,
+      page: 1,
     }));
   };
 
   const resetSearch = () => {
     setSearchState((prevState) => ({
       ...prevState,
-      page: "1",
+      page: 1,
       searchQuery: "",
       selectedCuisines: [],
       sortOption: "lastUpdated",
+    }));
+  };
+
+  const setPage = (page: number) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      page,
     }));
   };
 
@@ -66,6 +75,12 @@ const SearchPage = () => {
         {restaurants.data.map((restaurant) => (
           <SearchResultCard restaurant={restaurant} key={restaurant._id} />
         ))}
+
+        <PaginationSelector
+          page={restaurants.pagination.page}
+          pages={restaurants.pagination.pages}
+          onPageChange={setPage}
+        />
       </div>
     </div>
   );
