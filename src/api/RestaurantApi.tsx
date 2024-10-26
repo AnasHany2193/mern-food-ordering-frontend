@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 import { useQuery } from "react-query";
 import { RestaurantSearch } from "@/types";
+import { searchState } from "@/pages/SearchPage";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -8,10 +9,16 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
  * Search restaurants
  * @description Search restaurants by city name using the API endpoint /api/restaurant/search/{city} and returns the data in the form of a list of restaurants.
  */
-export const useSearchRestaurants = (city?: string) => {
+export const useSearchRestaurants = (
+  searchState: searchState,
+  city?: string
+) => {
   const createSearchRequest = async (): Promise<RestaurantSearch> => {
+    const params = new URLSearchParams();
+    params.set("searchQuery", searchState.searchQuery);
+
     const response = await fetch(
-      `${API_BASE_URL}/api/restaurant/search/${city}`
+      `${API_BASE_URL}/api/restaurant/search/${city}?${params.toString()}`
     );
 
     if (!response.ok) {
@@ -22,7 +29,7 @@ export const useSearchRestaurants = (city?: string) => {
   };
 
   const { data: restaurants, isLoading } = useQuery(
-    "searchRestaurants",
+    ["searchRestaurants", searchState],
     createSearchRequest,
     {
       enabled: !!city,

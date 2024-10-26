@@ -28,7 +28,12 @@ type Props = {
  * Search Bar Component
  * @description Search Bar Component that uses react-hook-form to validate and submit the form.
  */
-const SearchBar = ({ onReset, onSubmit, searchQuery, placeholder }: Props) => {
+const SearchBar = ({
+  onReset,
+  onSubmit,
+  placeholder,
+  searchQuery = "",
+}: Props) => {
   // 01. Define your form.
   const form = useForm<SearchFrom>({
     resolver: zodResolver(formSchema),
@@ -53,7 +58,7 @@ const SearchBar = ({ onReset, onSubmit, searchQuery, placeholder }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={`flex flex-1 items-center justify-between flex-row gap-3 mx-5 p-3 border-2 rounded-full ${
+        className={`flex flex-1 items-center justify-between flex-row gap-3 p-3 border-2 rounded-full ${
           form.formState.errors.searchQuery && "border-red-500"
         }`}
       >
@@ -79,16 +84,14 @@ const SearchBar = ({ onReset, onSubmit, searchQuery, placeholder }: Props) => {
           )}
         />
 
-        {form.formState.isDirty && (
-          <Button
-            onClick={handleReset}
-            type="button"
-            variant="outline"
-            className="rounded-full"
-          >
-            Clear
-          </Button>
-        )}
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleReset}
+          className="rounded-full"
+        >
+          Reset
+        </Button>
 
         <Button type="submit" className="bg-orange-500 rounded-full">
           Search
