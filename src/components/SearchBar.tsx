@@ -58,7 +58,7 @@ const SearchBar = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={`flex flex-1 items-center justify-between flex-row gap-3 p-3 border-2 rounded-full ${
+        className={`flex items-center justify-between flex-row gap-3 p-3 border-2 rounded-full ${
           form.formState.errors.searchQuery && "border-red-500"
         }`}
       >
