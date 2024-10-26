@@ -5,19 +5,22 @@ import {
   useGetMyRestaurant,
   useUpdateMyRestaurant,
 } from "@/api/MyRestaurantApi";
+import { Loader } from "lucide-react";
 
 /**
  * Manage Restaurant Page
  * @description This page is used to create and manage a restaurant or update the restaurant information. This page is only accessible to the restaurant owner.
  */
 function ManageRestaurantPage() {
-  const { getRestaurant } = useGetMyRestaurant();
+  const { isLoading: isGetting, getRestaurant } = useGetMyRestaurant();
   const { isLoading: isCreating, createRestaurant } = useCreateMyRestaurant();
   const { isLoading: isUpdating, updateRestaurant } = useUpdateMyRestaurant();
 
   const isEditing = !!getRestaurant;
 
-  return (
+  return isGetting ? (
+    <Loader />
+  ) : (
     <Tabs defaultValue="orders" className="mx-5">
       <TabsList>
         <TabsTrigger value="orders">Orders</TabsTrigger>
