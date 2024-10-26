@@ -9,7 +9,7 @@ type Props = {
 
 /**
  * Search Result Card
- * @description Card for displaying a single restaurant in the search results.
+ * @description Search Result Card that displays the restaurant's name, cuisine, delivery time and price to the user and links to the detail page
  */
 const SearchResultCard = ({ restaurant }: Props) => {
   return (

@@ -13,6 +13,10 @@ type Props = {
   onPageChange: (page: number) => void;
 };
 
+/**
+ * Pagination Selector component
+ * @description Pagination Selector that displays the current page and the number of pages to navigate to and the current page number is selected
+ */
 const PaginationSelector = ({ page, pages, onPageChange }: Props) => {
   const pageNumbers = [];
   for (let i = 1; i <= pages; i++) {

@@ -8,6 +8,7 @@ import SearchResultInfo from "@/components/SearchResultInfo";
 import SearchResultCard from "@/components/SearchResultCard";
 import SearchBar, { SearchFrom } from "@/components/SearchBar";
 import PaginationSelector from "@/components/PaginationSelector";
+import SortOptionDropdown from "@/components/SortOptionDropdown";
 
 export type searchState = {
   page: number;
@@ -16,49 +17,51 @@ export type searchState = {
   selectedCuisines: string[];
 };
 
+/**
+ * Search Page component
+ * @description Search Page that displays all restaurants in the city based on the search query and filters like cuisine and sort option selected by the user and also allows the user to reset the search query and sort option to default values and select multiple cuisines.
+ */
 const SearchPage = () => {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [searchState, setSearchState] = useState<searchState>({
     page: 1,
     searchQuery: "",
     selectedCuisines: [],
-    sortOption: "lastUpdated",
+    sortOption: "bestMatch",
   });
-
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const { city } = useParams();
   const { isLoading, restaurants } = useSearchRestaurants(searchState, city);
 
-  const setSearchQuery = (searchFormData: SearchFrom) => {
+  const setSearchQuery = (searchFormData: SearchFrom) =>
     setSearchState((prevState) => ({
       ...prevState,
       searchQuery: searchFormData.searchQuery,
       page: 1,
     }));
-  };
 
-  const resetSearch = () => {
+  const resetSearch = () =>
     setSearchState((prevState) => ({
       ...prevState,
       page: 1,
       searchQuery: "",
     }));
-  };
 
-  const setPage = (page: number) => {
+  const setPage = (page: number) =>
     setSearchState((prevState) => ({
       ...prevState,
       page,
     }));
-  };
 
-  const setSelectedCuisines = (selectedCuisines: string[]) => {
+  const setSelectedCuisines = (selectedCuisines: string[]) =>
     setSearchState((prevState) => ({
       ...prevState,
       page: 1,
       selectedCuisines,
     }));
-  };
+
+  const setSortOption = (sortOption: string) =>
+    setSearchState((prevState) => ({ ...prevState, sortOption, page: 1 }));
 
   return isLoading ? (
     <Loader />
@@ -85,7 +88,13 @@ const SearchPage = () => {
           placeholder="Search by Cuisine or Restaurant"
         />
 
-        <SearchResultInfo total={restaurants.pagination.total} city={city} />
+        <div className="flex flex-col justify-between gap-3 lg:flex-row">
+          <SearchResultInfo total={restaurants.pagination.total} city={city} />
+          <SortOptionDropdown
+            sortOption={searchState.sortOption}
+            onChange={(value) => setSortOption(value)}
+          />
+        </div>
 
         {restaurants.data.map((restaurant) => (
           <SearchResultCard restaurant={restaurant} key={restaurant._id} />

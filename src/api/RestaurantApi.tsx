@@ -7,7 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 /**
  * Search restaurants
- * @description Search restaurants by city name using the API endpoint /api/restaurant/search/{city} and returns the data in the form of a list of restaurants.
+ * @description This hook is used to fetch restaurants from the API based on the city and search state.
  */
 export const useSearchRestaurants = (
   searchState: searchState,
@@ -16,7 +16,7 @@ export const useSearchRestaurants = (
   const createSearchRequest = async (): Promise<RestaurantSearch> => {
     const params = new URLSearchParams();
     params.set("page", searchState.page.toString());
-    // params.set("sortOption", searchState.sortOption);
+    params.set("sortOption", searchState.sortOption);
     params.set("searchQuery", searchState.searchQuery);
     params.set("selectedCuisines", searchState.selectedCuisines.join(","));
 

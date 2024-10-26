@@ -10,6 +10,10 @@ type Props = {
   isExpanded: boolean;
 };
 
+/**
+ * Cuisine Filter component
+ * @description Cuisine Filter that allows user to select multiple cuisines to filter restaurants (e.g. Italian, Mexican) and reset the filter
+ */
 const CuisineFilter = ({
   onChange,
   isExpanded,
