@@ -1,7 +1,7 @@
 import { Restaurant } from "@/types";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { Banknote, Clock, Dot } from "lucide-react";
 import { Link } from "react-router-dom";
+import { AspectRatio } from "./ui/aspect-ratio";
+import { Banknote, Clock, Dot } from "lucide-react";
 
 type Props = {
   restaurant: Restaurant;

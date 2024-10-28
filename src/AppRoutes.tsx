@@ -8,6 +8,7 @@ import SearchPage from "./pages/SearchPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
+import DetailPage from "./pages/DetailPage";
 
 /**
  * AppRoutes
@@ -30,6 +31,15 @@ function AppRoutes() {
         element={
           <Layout>
             <SearchPage />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/detail/:restaurantId"
+        element={
+          <Layout>
+            <DetailPage />
           </Layout>
         }
       />
