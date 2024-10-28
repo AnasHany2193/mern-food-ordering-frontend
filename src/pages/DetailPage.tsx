@@ -44,6 +44,12 @@ const DetailPage = () => {
     });
   };
 
+  const removeFromCart = (cartItem: CartItem) => {
+    setCartItems((prevCartItems) =>
+      prevCartItems.filter((item) => item._id !== cartItem._id)
+    );
+  };
+
   return isLoading || !restaurant ? (
     <Loader />
   ) : (
@@ -72,7 +78,11 @@ const DetailPage = () => {
 
         <div className="">
           <Card>
-            <OrderSummary restaurant={restaurant} cartItems={cartItems} />
+            <OrderSummary
+              cartItems={cartItems}
+              restaurant={restaurant}
+              removeFromCart={removeFromCart}
+            />
           </Card>
         </div>
       </div>

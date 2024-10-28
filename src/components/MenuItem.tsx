@@ -8,7 +8,7 @@ type Props = {
 
 /**
  * Menu Item Component
- * @description That component is used to render a single menu item as a card component with a name and a price
+ * @description This component renders a menu item card with a name and price as well as a button to add the item to the cart.
  */
 const MenuItem = ({ menuItem, addToCart }: Props) => {
   return (

@@ -8,11 +8,16 @@ import { Separator } from "./ui/separator";
 import { CardContent, CardHeader, CardTitle } from "./ui/card";
 
 type Props = {
-  restaurant: Restaurant;
   cartItems: CartItem[];
+  restaurant: Restaurant;
+  removeFromCart: (cartItem: CartItem) => void;
 };
 
-const OrderSummary = ({ restaurant, cartItems }: Props) => {
+/**
+ * Order Summary component
+ * @description This component is used to display the order summary on the restaurant detail page and You can remove items from the cart by clicking on the trash icon.
+ */
+const OrderSummary = ({ restaurant, cartItems, removeFromCart }: Props) => {
   const getTotalCost = () => {
     const totalInPence = cartItems.reduce(
       (total, cartItem) => total + cartItem.price * cartItem.quantity,
@@ -43,8 +48,13 @@ const OrderSummary = ({ restaurant, cartItems }: Props) => {
               {cartItem.name}
             </span>
             <span className="flex items-start gap-1">
-              <Trash size={20} color="red" />
-              <p>£{((cartItem.price * cartItem.quantity) / 100).toFixed(2)}</p>
+              <Trash
+                size={20}
+                color="red"
+                className="cursor-pointer"
+                onClick={() => removeFromCart(cartItem)}
+              />
+              £{((cartItem.price * cartItem.quantity) / 100).toFixed(2)}
             </span>
           </div>
         ))}
