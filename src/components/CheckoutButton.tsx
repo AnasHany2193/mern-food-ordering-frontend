@@ -22,6 +22,10 @@ type Props = {
   onCheckout: (userFormData: UserFormData) => void;
 };
 
+/**
+ * Checkout Button component
+ * @description This component is used to open the checkout modal if user is logged in. If user is not logged in, it will redirect to login page and then open the checkout modal.
+ */
 const CheckoutButton = ({ disabled, onCheckout }: Props) => {
   const { pathname } = useLocation();
   const { currentUser, isLoading: isGetUserLoading } = useGetMyUser();
@@ -59,6 +63,8 @@ const CheckoutButton = ({ disabled, onCheckout }: Props) => {
           onSave={onCheckout}
           currentUser={currentUser}
           isLoading={isGetUserLoading}
+          title="Confirm Delivery Details"
+          ButtonText="Continue to payment"
         />
       </DialogContent>
     </Dialog>

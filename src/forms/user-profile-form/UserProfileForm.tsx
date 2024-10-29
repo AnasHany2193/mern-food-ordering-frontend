@@ -32,13 +32,21 @@ type Props = {
   currentUser: User;
   isLoading: boolean;
   onSave: (userProfileData: UserFormData) => void;
+  title?: string;
+  ButtonText?: string;
 };
 
 /**
  * User Profile Form Component
- * @description  User Profile Form Component that allows users to update their profile information and submit it.
+ * @description This component is used to create a form to update user profile information and submit it to the server.
  */
-const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
+const UserProfileForm = ({
+  onSave,
+  isLoading,
+  currentUser,
+  title = "User Profile",
+  ButtonText = "Submit",
+}: Props) => {
   // 1. Define your form.
   const form = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
@@ -57,7 +65,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
         className="space-y-4 rounded-lg bg-gray-50 md:p-10"
       >
         <div className="">
-          <h2 className="text-2xl font-bold">User Profile Form</h2>
+          <h2 className="text-2xl font-bold">{title}</h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -138,7 +146,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
           <LoadingButton />
         ) : (
           <Button type="submit" className="bg-orange-500">
-            Submit
+            {ButtonText}
           </Button>
         )}
       </form>
