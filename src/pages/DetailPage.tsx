@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { MenuItem as MenuItemType } from "@/types";
 
 import { useGetRestaurant } from "@/api/RestaurantApi";
+import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 
 import { Card, CardFooter } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -68,6 +69,10 @@ const DetailPage = () => {
     });
   };
 
+  const onCheckout = (userFormData: UserFormData) => {
+    console.log("onCheckout", userFormData);
+  };
+
   return isLoading || !restaurant ? (
     <Loader />
   ) : (
@@ -103,7 +108,10 @@ const DetailPage = () => {
             />
 
             <CardFooter>
-              <CheckoutButton />
+              <CheckoutButton
+                onCheckout={onCheckout}
+                disabled={cartItems.length === 0}
+              />
             </CardFooter>
           </Card>
         </div>
