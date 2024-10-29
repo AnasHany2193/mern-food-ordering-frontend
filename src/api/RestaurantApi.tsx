@@ -5,6 +5,10 @@ import { searchState } from "@/pages/SearchPage";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+/**
+ * Get restaurant
+ * @description This hook is used to fetch a restaurant from the API based on the restaurant id.
+ */
 export const useGetRestaurant = (restaurantId?: string) => {
   const getRestaurantByIdRequest = async (): Promise<Restaurant> => {
     const response = await fetch(

@@ -19,6 +19,7 @@ import UserProfileForm, {
 
 type Props = {
   disabled: boolean;
+  isLoading: boolean;
   onCheckout: (userFormData: UserFormData) => void;
 };
 
@@ -26,7 +27,7 @@ type Props = {
  * Checkout Button component
  * @description This component is used to open the checkout modal if user is logged in. If user is not logged in, it will redirect to login page and then open the checkout modal.
  */
-const CheckoutButton = ({ disabled, onCheckout }: Props) => {
+const CheckoutButton = ({ disabled, isLoading, onCheckout }: Props) => {
   const { pathname } = useLocation();
   const { currentUser, isLoading: isGetUserLoading } = useGetMyUser();
   const {
@@ -47,7 +48,7 @@ const CheckoutButton = ({ disabled, onCheckout }: Props) => {
     <Button onClick={onLogin} type="button" className="flex-1 bg-orange-500">
       Log in to Checkout
     </Button>
-  ) : isAuthLoading || !currentUser ? (
+  ) : isAuthLoading || !currentUser || isLoading ? (
     <LoadingButton />
   ) : (
     <Dialog>

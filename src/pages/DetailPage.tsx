@@ -13,6 +13,8 @@ import MenuItem from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import CheckoutButton from "@/components/CheckoutButton";
+import { useCreateCheckoutSession } from "@/api/OrderApi";
+import { toast } from "sonner";
 
 export type CartItem = {
   _id: string;
@@ -27,6 +29,9 @@ const DetailPage = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>(
     JSON.parse(sessionStorage.getItem(`cartItems-${restaurantId}`) || "[]")
   );
+
+  const { isLoading: isCreatingSession, createCheckoutSession } =
+    useCreateCheckoutSession();
 
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevCartItem) => {
@@ -69,8 +74,29 @@ const DetailPage = () => {
     });
   };
 
-  const onCheckout = (userFormData: UserFormData) => {
-    console.log("onCheckout", userFormData);
+  const onCheckout = async (userFormData: UserFormData) => {
+    if (!restaurant) {
+      return toast.error("Restaurant not found");
+    }
+
+    const checkoutData = {
+      restaurantId: restaurant._id,
+      deliveryDetails: {
+        name: userFormData.name,
+        city: userFormData.city,
+        country: userFormData.country,
+        email: userFormData.email as string,
+        addressLine1: userFormData.addressLine1,
+      },
+      cartItems: cartItems.map((cartItem) => ({
+        name: cartItem.name,
+        menuItemId: cartItem._id,
+        quantity: cartItem.quantity.toString(),
+      })),
+    };
+
+    const data = await createCheckoutSession(checkoutData);
+    window.location.href = data.url;
   };
 
   return isLoading || !restaurant ? (
@@ -110,6 +136,7 @@ const DetailPage = () => {
             <CardFooter>
               <CheckoutButton
                 onCheckout={onCheckout}
+                isLoading={isCreatingSession}
                 disabled={cartItems.length === 0}
               />
             </CardFooter>
