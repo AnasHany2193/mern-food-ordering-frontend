@@ -4,13 +4,14 @@ import { MenuItem as MenuItemType } from "@/types";
 
 import { useGetRestaurant } from "@/api/RestaurantApi";
 
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 import Loader from "@/components/Loader";
 import MenuItem from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
+import CheckoutButton from "@/components/CheckoutButton";
 
 export type CartItem = {
   _id: string;
@@ -20,10 +21,11 @@ export type CartItem = {
 };
 
 const DetailPage = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
+  const [cartItems, setCartItems] = useState<CartItem[]>(
+    JSON.parse(sessionStorage.getItem(`cartItems-${restaurantId}`) || "[]")
+  );
 
   const addToCart = (menuItem: MenuItemType) => {
     setCartItems((prevCartItem) => {
@@ -32,7 +34,7 @@ const DetailPage = () => {
         (item) => item._id === menuItem._id
       );
 
-      return isItemInCart
+      const updatedCartItems = isItemInCart
         ? // 02. if already in the cart, increase the quantity by 1
           prevCartItem.map((item) =>
             item._id === menuItem._id
@@ -41,13 +43,29 @@ const DetailPage = () => {
           )
         : // 03. if not in the cart, add the item to the cart
           [...prevCartItem, { ...menuItem, quantity: 1 }];
+
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+
+      return updatedCartItems;
     });
   };
 
   const removeFromCart = (cartItem: CartItem) => {
-    setCartItems((prevCartItems) =>
-      prevCartItems.filter((item) => item._id !== cartItem._id)
-    );
+    setCartItems((prevCartItems) => {
+      const updatedCartItems = prevCartItems.filter(
+        (item) => item._id !== cartItem._id
+      );
+
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+
+      return updatedCartItems;
+    });
   };
 
   return isLoading || !restaurant ? (
@@ -83,6 +101,10 @@ const DetailPage = () => {
               restaurant={restaurant}
               removeFromCart={removeFromCart}
             />
+
+            <CardFooter>
+              <CheckoutButton />
+            </CardFooter>
           </Card>
         </div>
       </div>
