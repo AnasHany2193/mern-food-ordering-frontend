@@ -1,8 +1,12 @@
+import { PackageX } from "lucide-react";
+
 import { useGetMyOrders } from "@/api/OrderApi";
-import Loader from "@/components/Loader";
-import OrderStatusDetails from "@/components/OrderStatusDetails";
-import OrderStatusHeader from "@/components/OrderStatusHeader";
+
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+
+import Loader from "@/components/Loader";
+import OrderStatusHeader from "@/components/OrderStatusHeader";
+import OrderStatusDetails from "@/components/OrderStatusDetails";
 
 function OrderStatusPage() {
   const { isLoading, orders } = useGetMyOrders();
@@ -10,9 +14,10 @@ function OrderStatusPage() {
   return isLoading ? (
     <Loader screen />
   ) : !orders || orders.length === 0 ? (
-    <span className="flex justify-center text-2xl font-bold text-gray-500">
-      No orders yet!
-    </span>
+    <div className="flex justify-center gap-3">
+      <PackageX color="red" />
+      <span>No orders available yet!</span>
+    </div>
   ) : (
     <div className="mx-8 space-y-10 md:mx-0">
       {orders.map((order) => (

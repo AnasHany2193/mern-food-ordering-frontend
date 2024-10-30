@@ -1,8 +1,13 @@
+import { toast } from "sonner";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { UtensilsCrossed } from "lucide-react";
+
 import { MenuItem as MenuItemType } from "@/types";
 
 import { useGetRestaurant } from "@/api/RestaurantApi";
+import { useCreateCheckoutSession } from "@/api/OrderApi";
+
 import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 
 import { Card, CardFooter } from "@/components/ui/card";
@@ -13,8 +18,6 @@ import MenuItem from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import CheckoutButton from "@/components/CheckoutButton";
-import { useCreateCheckoutSession } from "@/api/OrderApi";
-import { toast } from "sonner";
 
 export type CartItem = {
   _id: string;
@@ -99,8 +102,13 @@ const DetailPage = () => {
     window.location.href = data.url;
   };
 
-  return isLoading || !restaurant ? (
+  return isLoading ? (
     <Loader />
+  ) : !restaurant ? (
+    <div className="flex justify-center gap-3">
+      <UtensilsCrossed color="red" />
+      <span>Unable to load restaurant</span>
+    </div>
   ) : (
     <div className="flex flex-col gap-10 mx-8 md:mx-0">
       <AspectRatio ratio={16 / 5}>

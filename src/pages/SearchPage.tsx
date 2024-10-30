@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { UtensilsCrossed } from "lucide-react";
 import { useSearchRestaurants } from "@/api/RestaurantApi";
 
 import Loader from "@/components/Loader";
@@ -66,11 +67,12 @@ const SearchPage = () => {
   return isLoading ? (
     <Loader />
   ) : !restaurants?.data || !city ? (
-    <span className="flex justify-center text-2xl font-bold text-gray-500">
-      No restaurants founded!
-    </span>
+    <div className="flex justify-center gap-3">
+      <UtensilsCrossed color="red" />
+      <span>No restaurants available</span>
+    </div>
   ) : (
-    <div className="grid grid-cols-1 gap-5 lg:grid-cols-[250px_1fr] mx-5">
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-[250px_1fr] mx-8 md:mx-0">
       <div id="cuisines-list" className="">
         <CuisineFilter
           isExpanded={isExpanded}
