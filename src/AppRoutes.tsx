@@ -4,15 +4,16 @@ import Layout from "./layouts/layout";
 import ProtectedRoute from "./auth/ProtectedRoute";
 
 import HomePage from "./pages/HomePage";
+import DetailPage from "./pages/DetailPage";
 import SearchPage from "./pages/SearchPage";
+import OrderStatusPage from "./pages/OrderStatusPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
-import DetailPage from "./pages/DetailPage";
 
 /**
  * AppRoutes
- * @description This component is responsible for defining the routes for the app
+ * @description This Function is responsible for routing the app to the correct page based on the URL path provided
  */
 function AppRoutes() {
   return (
@@ -60,6 +61,14 @@ function AppRoutes() {
           element={
             <Layout>
               <ManageRestaurantPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/order-status"
+          element={
+            <Layout>
+              <OrderStatusPage />
             </Layout>
           }
         />

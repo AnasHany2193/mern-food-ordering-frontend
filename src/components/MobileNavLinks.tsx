@@ -12,7 +12,7 @@ const MobileNavLinks = () => {
   return (
     <>
       <Link
-        to="/orders"
+        to="/order-status"
         className="flex items-center font-bold bg-white hover:text-orange-500"
       >
         Orders

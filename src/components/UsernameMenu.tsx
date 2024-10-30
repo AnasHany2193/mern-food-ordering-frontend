@@ -20,7 +20,7 @@ const UsernameMenu = () => {
 
   return (
     <div className="flex">
-      <Link to="/order" className="font-bold hover:text-orange-500">
+      <Link to="/order-status" className="font-bold hover:text-orange-500">
         Order Status
       </Link>
       <DropdownMenu>

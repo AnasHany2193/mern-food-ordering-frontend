@@ -66,7 +66,7 @@ const SearchPage = () => {
   return isLoading ? (
     <Loader />
   ) : !restaurants?.data || !city ? (
-    <span className="text-2xl font-bold text-center text-gray-500 text-opacity-50">
+    <span className="flex justify-center text-2xl font-bold text-gray-500">
       No restaurants founded!
     </span>
   ) : (
