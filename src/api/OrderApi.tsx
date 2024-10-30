@@ -85,15 +85,14 @@ export const useCreateCheckoutSession = () => {
 
   const {
     reset,
-    error,
     isLoading,
     mutateAsync: createCheckoutSession,
-  } = useMutation(createCheckoutSessionRequest);
-
-  if (error) {
-    toast.error(error.toString());
-    reset();
-  }
+  } = useMutation(createCheckoutSessionRequest, {
+    onError: (error: Error) => {
+      toast.error(error.toString());
+      reset();
+    },
+  });
 
   return { isLoading, createCheckoutSession };
 };
