@@ -49,7 +49,7 @@ const CheckoutButton = ({ disabled, isLoading, onCheckout }: Props) => {
       Log in to Checkout
     </Button>
   ) : isAuthLoading || !currentUser || isLoading ? (
-    <LoadingButton />
+    <LoadingButton flex="flex flex-1" />
   ) : (
     <Dialog>
       <DialogTrigger asChild>

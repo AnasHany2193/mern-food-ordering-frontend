@@ -11,12 +11,20 @@ export type User = {
   addressLine1: string;
 };
 
+/**
+ * Menu item interface
+ * @description Menu item interface that contains all the information about a menu item
+ */
 export type MenuItem = {
   _id: string;
   name: string;
   price: number;
 };
 
+/**
+ * Restaurant interface
+ * @description Restaurant interface that contains all the information about a restaurant
+ */
 export type Restaurant = {
   _id: string;
   user: string;
@@ -31,7 +39,48 @@ export type Restaurant = {
   lastUpdated: string;
 };
 
+/**
+ * RestaurantSearch interface
+ * @description RestaurantSearch interface that contains all the information about a restaurant search
+ */
 export type RestaurantSearch = {
   data: Restaurant[];
   pagination: { page: number; total: number; limit: number; pages: number };
+};
+
+/**
+ * OrderStatus interface
+ * @description OrderStatus interface that contains all the information about an order status
+ */
+export type OrderStatus =
+  | "placed"
+  | "paid"
+  | "inProgress"
+  | "outForDelivery"
+  | "delivered";
+
+/**
+ * Order interface
+ * @description Order interface that contains all the information about an order
+ */
+export type Order = {
+  _id: string;
+  restaurant: Restaurant;
+  user: User;
+  cartItems: {
+    name: string;
+    quantity: string;
+    menuItemId: string;
+  }[];
+  deliveryDetails: {
+    name: string;
+    city: string;
+    email: string;
+    country: string;
+    addressLine1: string;
+  };
+  totalAmount: number;
+  status: OrderStatus;
+  createdAt: string;
+  restaurantId: string;
 };
