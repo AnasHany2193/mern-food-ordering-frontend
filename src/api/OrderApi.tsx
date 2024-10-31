@@ -7,7 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 /**
  * Get my orders
- * @description This function is used to get my orders from the backend API
+ * @description This function is used to get my orders from the backend API and update every 5 seconds
  */
 export const useGetMyOrders = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -28,7 +28,10 @@ export const useGetMyOrders = () => {
 
   const { isLoading, data: orders } = useQuery(
     "fetchMyOrders",
-    getMyOrdersRequest
+    getMyOrdersRequest,
+    {
+      refetchInterval: 5000,
+    }
   );
 
   return { isLoading, orders };
