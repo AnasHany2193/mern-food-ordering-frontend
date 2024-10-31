@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Layout from "./layouts/layout";
 import ProtectedRoute from "./auth/ProtectedRoute";
@@ -74,15 +74,7 @@ function AppRoutes() {
         />
       </Route>
 
-      {/* <Route path="*" element={<Navigate to="/" />} /> */}
-      <Route
-        path="*"
-        element={
-          <Layout showHero={false}>
-            <p>Not Found</p>
-          </Layout>
-        }
-      />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
