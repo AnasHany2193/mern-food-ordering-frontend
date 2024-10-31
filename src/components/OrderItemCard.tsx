@@ -1,18 +1,19 @@
-import { Order } from "@/types";
+import { useEffect, useState } from "react";
+import { Order, OrderStatus } from "@/types";
 
 import { ORDER_STATUS } from "@/config/order-status-config";
+import { useUpdateMyRestaurantOrder } from "@/api/MyRestaurantApi";
 
 import { Badge } from "./ui/badge";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-
 import {
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
   SelectValue,
+  SelectTrigger,
+  SelectContent,
 } from "./ui/select";
 
 type Props = {
@@ -21,9 +22,27 @@ type Props = {
 
 /**
  * Order Item Card Component
- * @description This component is used to display the order item card and its details for the user
+ * @description This component displays the order item card with the order details and status change options. It also handles the order status change.
  */
 const OrderItemCard = ({ order }: Props) => {
+  const [status, setStatus] = useState<OrderStatus>(order.status);
+
+  const { isLoading, updateMyRestaurantOrderStatus } =
+    useUpdateMyRestaurantOrder();
+
+  useEffect(() => {
+    setStatus(order.status);
+  }, [order.status]);
+
+  const handleOrderStatusChange = async (newStatus: OrderStatus) => {
+    await updateMyRestaurantOrderStatus({
+      orderId: order._id as string,
+      status: newStatus,
+    });
+
+    setStatus(newStatus);
+  };
+
   const getTime = () => {
     const orderDateTime = new Date(order.createdAt);
 
@@ -69,7 +88,7 @@ const OrderItemCard = ({ order }: Props) => {
       <CardContent className="flex flex-col gap-6">
         <div className="grid gap-2 md:grid-cols-2">
           {order.cartItems.map((cartItem) => (
-            <span>
+            <span key={cartItem.menuItemId}>
               <Badge variant="outline" className="mr-2">
                 {cartItem.quantity}
               </Badge>
@@ -80,7 +99,13 @@ const OrderItemCard = ({ order }: Props) => {
 
         <div className="flex flex-col space-y-1.5">
           <Label htmlFor="status">What is the status of this order?</Label>
-          <Select>
+          <Select
+            value={status}
+            disabled={isLoading}
+            onValueChange={(value) =>
+              handleOrderStatusChange(value as OrderStatus)
+            }
+          >
             <SelectTrigger id="status">
               <SelectValue placeholder="Status" />
             </SelectTrigger>

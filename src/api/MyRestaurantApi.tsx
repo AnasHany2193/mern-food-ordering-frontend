@@ -150,6 +150,10 @@ type UpdateStatusOrderRequest = {
   status: string;
 };
 
+/**
+ * Updates the status of a restaurant order
+ * @description This function is used to update the status of a restaurant order. It takes in a restaurant order object and sends a PATCH request to the API.
+ */
 export const useUpdateMyRestaurantOrder = () => {
   const { getAccessTokenSilently } = useAuth0();
 
@@ -159,7 +163,7 @@ export const useUpdateMyRestaurantOrder = () => {
     const accessToken = await getAccessTokenSilently();
 
     const response = await fetch(
-      `${API_BASE_URL}/api/my/restaurant/order/:${updateStatusOrderRequest.orderId}/status`,
+      `${API_BASE_URL}/api/my/restaurant/order/${updateStatusOrderRequest.orderId}/status`,
       {
         method: "PATCH",
         headers: {
@@ -170,7 +174,7 @@ export const useUpdateMyRestaurantOrder = () => {
       }
     );
 
-    if (!response.ok) throw new Error("Failed to update order");
+    if (!response.ok) throw new Error("Failed to update order status");
 
     return response.json();
   };
@@ -178,7 +182,7 @@ export const useUpdateMyRestaurantOrder = () => {
   const {
     reset,
     isLoading,
-    mutate: updateMyRestaurantOrder,
+    mutate: updateMyRestaurantOrderStatus,
   } = useMutation(updateMyRestaurantOrderRequest, {
     onSuccess: () => {
       toast.success("Order status updated successfully");
@@ -189,5 +193,5 @@ export const useUpdateMyRestaurantOrder = () => {
     },
   });
 
-  return { isLoading, updateMyRestaurantOrder };
+  return { isLoading, updateMyRestaurantOrderStatus };
 };
